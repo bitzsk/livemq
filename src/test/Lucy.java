@@ -5,11 +5,11 @@ import org.livemq.LiveMQ;
 import org.livemq.MqttMessage;
 import org.livemq.exception.MqttException;
 
-public class Main {
+public class Lucy {
 
-	private static String clientId = "admin";
+	private static String clientId = "lucy";
 	private static String serverURI = "tcp://127.0.0.1:1883";
-	private static String username = "admin";
+	private static String username = "lucy";
 	private static String password = "123456";
 
 	public static void main(String[] args) throws MqttException {
@@ -33,13 +33,5 @@ public class Main {
 		mq.connect();
 		
 		mq.subscribe(clientId);
-		
-		
-		String topic = "lucy";
-		String payload = "订阅主题  ["+ topic +"] 的客户端们，你们好我是  " + clientId + "。";
-		MqttMessage message = new MqttMessage();
-		message.setQos(1);
-		message.setPayload(payload.getBytes());
-		mq.publish(topic, message);
 	}
 }

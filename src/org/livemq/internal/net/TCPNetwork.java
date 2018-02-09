@@ -16,7 +16,7 @@ import javax.net.SocketFactory;
  */
 public class TCPNetwork implements Network {
 
-	private Socket socket;
+	protected Socket socket;
 	private SocketFactory factory;
 	private String host;
 	private int port;

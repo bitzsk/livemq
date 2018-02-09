@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -203,6 +205,31 @@ public class FileUtil {
 
 		return bytes;
 
+	}
+	
+	public static byte[] read(File file){
+		byte[] bytes = new byte[0];
+		FileInputStream fis = null;
+		FileChannel channel = null;
+		try {
+			fis = new FileInputStream(file);
+			channel = fis.getChannel();
+			ByteBuffer buffer = ByteBuffer.allocate((int) channel.size());
+			while(channel.read(buffer) > 0){
+				System.out.println("读取文件中");
+			}
+			bytes = buffer.array();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				if(channel != null) channel.close();
+				if(fis != null) fis.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return bytes;
 	}
 
 	/**
