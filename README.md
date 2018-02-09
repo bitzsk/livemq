@@ -98,38 +98,6 @@ resource
 
 
 
-```
-src
-	└─ org
-		└─ livemq
-			|─ client
-				|─ client
-			|─ exception
-			|─ internal
-			|─ log
-			|─ persistence
-			|─ server
-			|─ util
-			|─ Configuration.java
-			|─ LiveMQ.java
-			|─ LiveMQServer.java
-			|─ MqttClientCallback.java
-			|─ MqttClientPersistence.java
-			|─ MqttMessage.java
-			|─ MqttServerCallback.java
-			└─ MqttServerPersistence.java
-resource
-|	|─ livemq.cfg
-|	└─ livemq.sh
-|
-```
-
-
-
-
-
-
-
 ### 压缩包目录介绍
 
 ```
