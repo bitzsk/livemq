@@ -3,6 +3,6 @@
 
 
 
-[![GitHub version](https://img.shields.io/github/release/blynkkk/blynk-server.svg)](https://github.com/xinxisimple/livemq/releases/tag/1.0.0)
-[![GitHub download](https://img.shields.io/github/downloads/blynkkk/blynk-server/total.svg)](https://github.com/xinxisimple/livemq/releases/tag/1.0.0)
-[![Build Status](https://travis-ci.org/blynkkk/blynk-server.svg?branch=master)](https://github.com/xinxisimple/livemq/releases/tag/1.0.0)
+[![GitHub version](https://img.shields.io/badge/release-v1.0.0-blue.svg)](https://github.com/xinxisimple/livemq/releases/tag/1.0.0)
+[![GitHub download](https://img.shields.io/badge/downloads-10k-green.svg)](https://github.com/xinxisimple/livemq/releases/tag/1.0.0)
+[![Build Status](https://img.shields.io/badge/platform-android%20%7C%20win--32%20%7C%20win--64%20%7C%20linux--64-lightgrey.svg)](https://github.com/xinxisimple/livemq/releases/tag/1.0.0)
