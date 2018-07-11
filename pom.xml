@@ -1,0 +1,198 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.xinxisimple.livemq</groupId>
+	<artifactId>livemq</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<name>livemq</name>
+	<description>LIVEMQ即时通讯系统</description>
+	<url>http://www.xinxisimple.com/</url>
+	
+	<licenses>
+		<license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+	</licenses>
+	
+	<developers>
+		<developer>
+			<name>王</name>
+			<email>xinxisimple@163.com</email>
+			<organization>xinxisimple</organization>
+		</developer>
+	</developers>
+	
+	<modules>
+		<module>livemq-api</module>
+		<module>livemq-cache</module>
+		<module>livemq-common</module>
+		<module>livemq-core</module>
+		<module>livemq-monitor</module>
+		<module>livemq-netty</module>
+		<module>livemq-server</module>
+		<module>livemq-test</module>
+		<module>livemq-tools</module>
+		<module>livemq-zk</module>
+	</modules>
+	
+	<properties>
+		<!-- 文件拷贝时的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- jdk版本及编码 -->        
+        <java.version>1.8</java.version>
+        <java.encoding>UTF-8</java.encoding>
+		<!-- other -->
+		<junit.version>4.12</junit.version>
+		<netty.version>4.1.25.Final</netty.version>
+		<slf4j.version>1.7.25</slf4j.version>
+		<json.version>20180130</json.version>
+		<redis.version>2.9.0</redis.version>
+		<zk.curator.version>4.0.1</zk.curator.version>
+		<mqttv3.version>1.2.0</mqttv3.version>
+    </properties>
+    
+    <dependencyManagement>
+    	<dependencies>
+    		<!-- junit -->
+			<dependency>
+			    <groupId>junit</groupId>
+			    <artifactId>junit</artifactId>
+			    <version>${junit.version}</version>
+			</dependency>
+			<!-- netty -->
+			<dependency>
+			    <groupId>io.netty</groupId>
+			    <artifactId>netty-all</artifactId>
+			    <version>${netty.version}</version>
+			</dependency>
+			<!-- 日志 -->
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>slf4j-api</artifactId>
+			    <version>${slf4j.version}</version>
+			</dependency>
+			<!--log4j dispatch to slf4j-->
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>log4j-over-slf4j</artifactId>
+			    <version>${slf4j.version}</version>
+			</dependency>
+			<!-- json -->
+			<dependency>
+			    <groupId>org.json</groupId>
+			    <artifactId>json</artifactId>
+			    <version>${json.version}</version>
+			</dependency>
+			<!-- redis -->
+			<dependency>
+			    <groupId>redis.clients</groupId>
+			    <artifactId>jedis</artifactId>
+			    <version>${redis.version}</version>
+			</dependency>
+			<!-- zookeeper client - curator -->
+			<dependency>
+			    <groupId>org.apache.curator</groupId>
+			    <artifactId>curator-recipes</artifactId>
+			    <version>${zk.curator.version}</version>
+			</dependency>
+			<!-- mqttv3 -->
+			<dependency>
+			    <groupId>org.eclipse.paho</groupId>
+			    <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+			    <version>${mqttv3.version}</version>
+			</dependency>
+			
+			
+			<!-- 子模块依赖 -->
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-cache</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-monitor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-netty</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>livemq-zk</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+    	</dependencies>
+    </dependencyManagement>
+	
+	<!-- 编译配置 -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.2</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${java.encoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <encoding>${java.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+	
+</project>
