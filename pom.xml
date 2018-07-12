@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>com.xinxisimple.livemq</groupId>
+	<groupId>org.livemq</groupId>
 	<artifactId>livemq</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>livemq</name>
 	<description>LIVEMQ即时通讯系统</description>
-	<url>http://www.xinxisimple.com/</url>
+	<url>https://www.livemq.org</url>
 	
 	<licenses>
 		<license>
@@ -23,7 +23,7 @@
 		<developer>
 			<name>王</name>
 			<email>xinxisimple@163.com</email>
-			<organization>xinxisimple</organization>
+			<organization>https://github.com/livemq</organization>
 		</developer>
 	</developers>
 	
