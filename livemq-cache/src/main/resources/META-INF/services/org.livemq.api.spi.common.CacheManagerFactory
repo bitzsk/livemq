@@ -1,0 +1,2 @@
+org.livemq.cache.redis.manager.RedisCacheManagerFactory
+org.livemq.cache.redis.manager.FileCacheManagerFactory

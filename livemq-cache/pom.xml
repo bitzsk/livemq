@@ -17,6 +17,10 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>livemq-monitor</artifactId>
+		</dependency>
+		<dependency>
 		    <groupId>redis.clients</groupId>
 		    <artifactId>jedis</artifactId>
 		</dependency>

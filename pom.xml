@@ -77,12 +77,13 @@
 			    <artifactId>slf4j-api</artifactId>
 			    <version>${slf4j.version}</version>
 			</dependency>
-			<!--log4j dispatch to slf4j-->
+			<!--simple dispatch to slf4j-->
 			<dependency>
 			    <groupId>org.slf4j</groupId>
-			    <artifactId>log4j-over-slf4j</artifactId>
+			    <artifactId>slf4j-simple</artifactId>
 			    <version>${slf4j.version}</version>
 			</dependency>
+
 			<!-- json -->
 			<dependency>
 			    <groupId>org.json</groupId>

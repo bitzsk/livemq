@@ -15,4 +15,19 @@
 	<description>LIVEMQ即时通讯系统-Tools模块</description>
 	<url>https://www.livemq.org</url>
 	
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>livemq-api</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-simple</artifactId>
+		</dependency>
+	</dependencies>
+	
 </project>

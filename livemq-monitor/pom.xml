@@ -15,4 +15,11 @@
 	<description>LIVEMQ即时通讯系统-监控模块</description>
 	<url>https://www.livemq.org</url>
 	
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>livemq-common</artifactId>
+		</dependency>
+	</dependencies>
+	
 </project>
