@@ -179,7 +179,15 @@ public abstract class MqttWireMessage {
 	}
 	
 	/**
-	 * UTF-8 编码
+	 * <h1>UTF-8 编码</h1>
+	 * 
+	 * <p>
+	 * 每一个字符串都有一个两字节的长度字段作为前缀，它给出了这个字符串 UTF-8 编码的字节数，
+	 * 它们在 <i>1.5.3</i> 图例中描述。因此可以传送的 UTF-8 编码的字符串大小有一个限制，不能超过 65535 字节。
+	 * 
+	 * <br><br>除非另有说明，所有的 UTF-8 编码字符串的长度都必须在 0 到 65535 字节这个范围内。
+	 * </p>
+	 * 
 	 * @param str
 	 * @return
 	 * @throws MqttException 
