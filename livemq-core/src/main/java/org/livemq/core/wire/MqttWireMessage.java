@@ -11,6 +11,74 @@ import org.livemq.common.exception.MqttException;
 /**
  * <h1>控制报文顶级父类</h1>
  * 
+ * <h2>控制报文的结构</h2>
+ * <ul>
+ * 	<li>固定报头，所有控制报文都包含</li>
+ * 	<li>可变报头，部分控制报文包含</li>
+ * 	<li>有效荷载，部分控制报文包含</li>
+ * </ul>
+ *
+ * <h2>1 固定报头</h2>
+ * <ul>
+ * 	<li>byte 1 7-4 MQTT 控制报文的类型 3-0 用于指定控制报文类型的标志位</li>
+ * 	<li>byte 2... <strong>剩余长度</strong></li>
+ * </ul>
+ * 
+ * <h2>1.1 剩余长度</h2>
+ * <p>
+ * 位置：从第 2 个字节开始。 <br>
+ * 剩余长度（Remaining Length）表示当前报文剩余部分的字节数，包括可变报头和负载的数据。剩余长度不包括用于编码剩余长度字段本身的字节数。<br>
+ * 剩余长度字段使用一个变长度编码方案（具体看编码方案）
+ * </p>
+ * 
+ * <h2>2 可变报头</h2>
+ * <p>
+ * 某些 MQTT 控制报文包含一个可变报头部分。它在固定报头和负载之间。可变报头的内容根据报文类型的不同而不同。
+ * </p>
+ * 
+ * <h2>2.1 报文标识符</h2>
+ * <p>
+ * 可变报头的报文标识符（Packet Identifier）字段存在于在多个类型的报文里。<br>
+ * （如：PUBLISH [QoS > 0时]、PUBACK、PUBREC、PUBREL、PUBCOMP、SUBSCRIBE、SUBACK、UNSUBSCRIBE、UNSUBACK）<br><br>
+ * 
+ * SUBSCRIBE、UNSUBSCRIBE 和 PUBLISH（QoS 大于 0）控制报文必须包含一个非零的 16 位报文标识符（Packet Identifier）。<br>
+ * 客户端每次发送一个新的这些类型的报文时都 <strong>必须</strong> 分配一个当前未使用的报文表示符。<br>
+ * 如果客户端要重发这个特殊的控制报文，在随后重发那个报文时，它 <strong>必须</strong> 使用相同的标识符。<br>
+ * 当客户端处理完这个报文对应的确认后，这个报文标识符就释放可重用。<br>
+ * QoS 1 的 PUBLISH 对应的是 PUBACK，QoS 2 的 PUBLISH 对应的 PUBCOMP，与 SUBSCRIBE 或 UNSUBSCRIBE 对应的分别是 SUBACK 或 UNSUBACK。<br>
+ * 发送一个 QoS 0 的 PUBLISH 报文时，相同的条件也适用于服务端。<br><br>
+ * 
+ * QoS 设置为 0 的 PUBLISH 报文 <strong>不能</strong> 包含报文标识符。<br><br>
+ * 
+ * PUBACK，PUBREC，PUBREL 报文 <strong>必须</strong> 包含与最初发送的 PUBLISH 报文相同的报文标识符。<br>
+ * 类似的，SUBACK 和 UNSUBACK <strong>必须</strong> 包含在对应的 SUBSCRIBE 和 UNSUBSCRIBE 报文中使用的报文标识符。<br><br>
+ * 
+ * 客户端和服务端彼此独立地分配报文标识符。因此，客户端服务端组合使用相同的报文标识符可以实现并发的消息交换。<br>
+ * </p>
+ * 
+ * <h2>3 有效荷载</h2>
+ * <p>
+ * 某些 MQTT 控制报文在报文的最后部分包含一个有效荷载。<br>
+ * ------------------------------------------------------------------<br>
+ * | 控制报文 		| 有效荷载 											|<br>
+ * | CONNECT 	| 需要（因为需要携带连接参数。如：客户端标识符，遗嘱主题等） 		|<br>
+ * | CONNACK	| 不需要												|<br>
+ * | PUBLISH	| 可选（有内容则存在有效荷载）								|<br>
+ * | PUBACK		| 不需要												|<br>
+ * | PUBREC		| 不需要												|<br>
+ * | PUBREL		| 不需要												|<br>
+ * | PUBCOMP 	| 不需要												|<br>
+ * | SUBSCRIBE	| 需要（携带订阅的主题集和 QoS集）							|<br>
+ * | SUBACK 	| 需要												|<br>
+ * | UNSUBSCRIBE| 需要												|<br>
+ * | UNSUBACK 	| 不需要												|<br>
+ * | PINGREQ 	| 不需要												|<br>
+ * | PINGRESP 	| 不需要												|<br>
+ * | DISCONNECT | 不需要												|<br>
+ * ------------------------------------------------------------------<br>
+ * </p>
+ * 
+ * 
  * @author xinxisimple@163.com
  * @date 2018-07-04 11:00
  */

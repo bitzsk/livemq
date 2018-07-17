@@ -5,10 +5,10 @@ import org.junit.Test;
 /**
  * java 十进制和二进制之间的相互转换
  * java 逻辑(位)运算符 与(&)、非(~)、或(|)、异或(^)
- * java 右移，左移，无符号右移
+ * java 移位运算符：右移，左移，无符号右移
  * 
  * 
- * 逻辑运算符与(&)、非(~)、或(|)、异或(^)：https://www.cnblogs.com/yesiamhere/p/6675067.html
+ * 逻辑(位)运算符与(&)、非(~)、或(|)、异或(^)：https://www.cnblogs.com/yesiamhere/p/6675067.html
  * 运算符优先级：https://blog.csdn.net/qq_35114086/article/details/70173329#AutoNumber1
  * 位移：http://baihe747.iteye.com/blog/2078029
  * 
@@ -66,18 +66,11 @@ public class TestByte {
 	 */
 	@Test
 	public void test1() {
-		int a = 8;
-		int b = 11;
-		int c = a ^ b;
-		System.out.println(a + " ^ " + b + " = " + c);
+		int a = 8, b = 11;
+		System.out.println(a + " 的二进制为：" + Integer.toBinaryString(a));
+		System.out.println(b + " 的二进制为：" + Integer.toBinaryString(b));
 		
-		System.out.println(a + " 的二进制为：" + toBinary(a));
-		System.out.println(b + " 的二进制为：" + toBinary(b));
-		
-		String result = contrast1(toBinary(a), toBinary(b));
-		System.out.println(result);
-		
-		System.out.println(binary2Int(result));
+		System.out.println(a ^ b);
 	}
 	
 	/**
@@ -97,44 +90,55 @@ public class TestByte {
 	 * 8 转为二进制是 1000，11 转为二进制为 1011，从高位开始比较得到的是 1000，然后二进制转为十进制，就是 8
 	 * 
 	 * 当 & 两侧为布尔表达式时，要求运算符两侧的值都为真，结果才为真。
+	 * 无论 & 左边是否为 false，他都会继续检验右边的 boolean 值。
 	 */
 	@Test
 	public void test2() {
-		int a = 8;
-		int b = 11;
-		int c = a & b;
-		System.out.println(a + " & " + b + " = " + c);
+		int a = 5, b = 8;
+		System.out.println(a + " 的二进制为：" + Integer.toBinaryString(a));
+		System.out.println(b + " 的二进制为：" + Integer.toBinaryString(b));
 		
-		System.out.println(a + " 的二进制为：" + toBinary(a));
-		System.out.println(b + " 的二进制为：" + toBinary(b));
+		if(a == 5 & b == 10) {
+			System.out.println(true);
+		}else {
+			System.err.println(false);
+		}
 		
-		String result = contrast2(toBinary(a), toBinary(b));
-		System.out.println(result);
-		
-		System.out.println(binary2Int(result));
+		System.out.println(a & b);
 	}
 	
 	/**
-	 * 位或运算符(|)
+	 * 或运算符(|)
+	 * |: 按位或
+	 * ||: 短路或
 	 * 
-	 * 运算规则：两个数都转为二进制，然后从高位开始比较，两个数只要有一个为 1 则为 1，否则为 0。
-	 * 比如：8 | 11
+	 * | 既是位运算符又是逻辑运算符, | 的两侧可以是 int,也可以是 boolean表达式。
+	 * 而短路或 || 两侧要求必须是布尔表达式。
+	 * 
+	 * 当 | 两侧为 int 时, 先把运算符两侧的数转换为二进制数再进行运算。
+	 * (运算规则:两个数都转为二进制，然后从高位开始比较，两个数只要有一个为 1 则为 1，否则为 0)
+	 * 如: 5 | 8
+	 * 5 的二进制为 00000101, 8 的二进制为 00001000, 比较后为: 00001101. 所以: 5 | 8 = 13
+	 * 
+	 * 如：8 | 11
 	 * 8 转为二进制是 1000，11 转为二进制为 1011，从高位开始比较得到的是 1011，然后二进制转为十进制，就是 11
+	 * 
+	 * 当 | 两侧为布尔表达式时，要求运算符两侧的值都为真，结果才为真。
+	 * 无论 | 左边是否为 false，他都会继续检验右边的 boolean 值。
 	 */
 	@Test
 	public void test3() {
-		int a = 8;
-		int b = 11;
-		int c = a | b;
-		System.out.println(a + " | " + b + " = " + c);
+		int a = 5, b = 8;
+		System.out.println(a + " 的二进制为：" + Integer.toBinaryString(a));
+		System.out.println(b + " 的二进制为：" + Integer.toBinaryString(b));
 		
-		System.out.println(a + " 的二进制为：" + toBinary(a));
-		System.out.println(b + " 的二进制为：" + toBinary(b));
+		if(a == 5 | b == 10) {
+			System.out.println(true);
+		}else {
+			System.err.println(false);
+		}
 		
-		String result = contrast3(toBinary(a), toBinary(b));
-		System.out.println(result);
-		
-		System.out.println(binary2Int(result));
+		System.out.println(a | b);
 	}
 	
 	/**
@@ -179,8 +183,10 @@ public class TestByte {
 	 */
 	@Test
 	public void test4() {
-		int a = 8;
-		int b = -8;
+		int a = 8, b = -8;
+		System.out.println(a + " 的二进制为：" + Integer.toBinaryString(a));
+		System.out.println(b + " 的二进制为：" + Integer.toBinaryString(b));
+		
 		System.out.println(~a);		// -9
 		System.out.println(~b);		// 7
 	}
@@ -340,6 +346,10 @@ public class TestByte {
 		/**
 		 * 00000000 00000000 00000000 00000101
 		 * 10000000 00000000 00000000 00000000
+		 * 这里移位后的数已经超过 int 类型的最大值了，只能用 long 类型表示，如果还是按 int 表示其绝对值的二进制转为十进制为：2147483647
+		 * 但是二进制最低位如果为 0，则这个数是一个偶数，否则为奇数。
+		 * 这里算的奇数肯定是不对的，应该转为：2147483648，但是 int 类型的最大值就是 2147483647
+		 * 所以系统发现超过 int 的最大值，所以返回一个最大值
 		 */
 		System.out.println(a + " << 31 = " + (a << 31));		// -2147483648
 		/**
@@ -351,6 +361,7 @@ public class TestByte {
 		/**
 		 * 11111111 11111111 11111111 11111011
 		 * 10000000 00000000 00000000 00000000
+		 * 同上
 		 */
 		System.out.println(b + " << 31 = " + (b << 31));		// -2147483648
 		/**
@@ -402,114 +413,6 @@ public class TestByte {
 		System.out.println(b + " >>> 34 = " + (b >>> 34));		// 1073741822
 	}
 	
-	/**
-	 * 对两个二进制数进行比较(十进制的位或运算)
-	 * @param a
-	 * @param b
-	 * @return 比较后的二进制数
-	 */
-	private String contrast3(String a, String b) {
-		int aLen = a.length();
-		int bLen = b.length();
-		if(aLen != bLen) {
-			int x = aLen - bLen;
-			if(x < 0) x *= -1;
-			
-			String str = "";
-			for (int i = 0; i < x; i++) {
-				str += "0";
-			}
-			
-			if(aLen > bLen) {
-				b = str + b;
-			}else if(aLen < bLen) {
-				a = str + a;
-			}
-		}
-		
-		String result = "";
-		for (int i = 0; i < a.length(); i++) {
-			if(a.charAt(i) == '1' || b.charAt(i) == '1') {
-				result += "1";
-			}else {
-				result += "0";
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * 对两个二进制数进行比较(十进制的位与运算)
-	 * @param a
-	 * @param b
-	 * @return 比较后的二进制数
-	 */
-	private String contrast2(String a, String b) {
-		int aLen = a.length();
-		int bLen = b.length();
-		if(aLen != bLen) {
-			int x = aLen - bLen;
-			if(x < 0) x *= -1;
-			
-			String str = "";
-			for (int i = 0; i < x; i++) {
-				str += "0";
-			}
-			
-			if(aLen > bLen) {
-				b = str + b;
-			}else if(aLen < bLen) {
-				a = str + a;
-			}
-		}
-		
-		String result = "";
-		for (int i = 0; i < a.length(); i++) {
-			if(a.charAt(i) == '1' && b.charAt(i) == '1') {
-				result += "1";
-			}else {
-				result += "0";
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * 对两个二进制数进行比较(十进制的位异或运算)
-	 * @param a
-	 * @param b
-	 * @return 比较后的二进制数
-	 */
-	private String contrast1(String a, String b) {
-		int aLen = a.length();
-		int bLen = b.length();
-		if(aLen != bLen) {
-			int x = aLen - bLen;
-			if(x < 0) x *= -1;
-			
-			String str = "";
-			for (int i = 0; i < x; i++) {
-				str += "0";
-			}
-			
-			if(aLen > bLen) {
-				b = str + b;
-			}else if(aLen < bLen) {
-				a = str + a;
-			}
-		}
-		
-		String result = "";
-		for (int i = 0; i < a.length(); i++) {
-			if(a.charAt(i) == b.charAt(i)) {
-				result += "0";
-			}else {
-				result += "1";
-			}
-		}
-		return result;
-	}
-
 	/**
 	 * 二进制转十进制(该二进制数只能是正整数的二进制数)
 	 * @param binary

@@ -86,6 +86,9 @@ public class Test0x0f {
 	public void test() {
 		byte a = 5;
 		byte b = -127;
+		System.out.println(a + " 的二进制为：" + Integer.toBinaryString(a));
+		System.out.println(b + " 的二进制为：" + Integer.toBinaryString(b));
+		
 		System.out.println(a & 0xff);		// 0000 0101 & 1111 1111 ==> 0000 0101 = 5		打印:5
 		System.out.println(b & 0xff);		// 1000 0001 & 1111 1111 ==> 1000 0001 = -127 	打印:129
 											// 按 & 运算结果 1000 0001 应该也是 -127 啊，为什么结果是 129 呢?
