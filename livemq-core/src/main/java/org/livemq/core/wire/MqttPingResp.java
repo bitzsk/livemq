@@ -18,6 +18,17 @@ package org.livemq.core.wire;
  * @author xinxisimple@163.com
  * @date 2018-07-04 14:11
  */
+
+/**
+ * 
+ * @Title PINGRESP - 心跳响应
+ * @Package org.livemq.core.wire
+ * @Description 服务端发送 PINGRESP 报文响应客户端的 PINGREQ 报文。表示服务端还活着。<br><br>
+ * 		保持连接（Keep Alive）处理中用到这个报文。
+ * @author xinxisimple@163.com
+ * @date 2018-07-18 16:55
+ * @version 1.0.0
+ */
 public class MqttPingResp extends MqttAck {
 
 	public MqttPingResp(byte info, byte[] data) {

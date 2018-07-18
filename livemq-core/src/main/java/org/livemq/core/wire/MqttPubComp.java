@@ -1,26 +1,38 @@
 package org.livemq.core.wire;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+
+import org.livemq.common.exception.MqttException;
+
 /**
- * <h1>控制报文 - PUBREC</h1>
  * 
- * <p>
- * 是对 PUBREL 报文的响应。它是 QoS 2 等级协议交换的第四个也就是最后一个报文。
- * </p>
- * 
+ * @Title PUBCOMP - 发布完成（QoS 2，第三步）
+ * @Package org.livemq.core.wire
+ * @Description PUBCOMP 报文是对 PUBREL 报文的响应。它是 QoS 2 等级协议交换的第四个也是最后一个报文。
  * @author xinxisimple@163.com
- * @date 2018-07-04 14:04
+ * @date 2018-07-18 15:52
+ * @version 1.0.0
+ * @see https://github.com/mcxiaoke/mqtt/blob/master/mqtt/0307-PUBCOMP.md
  */
 public class MqttPubComp extends MqttAck {
 
-	public MqttPubComp() {
+	public MqttPubComp(byte info, byte[] data) throws IOException {
 		super(MqttWireMessage.MESSAGE_TYPE_PUBCOMP);
-		// TODO Auto-generated constructor stub
+		ByteArrayInputStream bais = new ByteArrayInputStream(data);
+		DataInputStream dis = new DataInputStream(bais);
+		msgId = dis.readUnsignedShort();
+	}
+
+	public MqttPubComp(MqttPubRel pubRel) {
+		super(MqttWireMessage.MESSAGE_TYPE_PUBCOMP);
+		msgId = pubRel.getMessageId();
 	}
 
 	@Override
-	public byte[] getVariableHeader() {
-		// TODO Auto-generated method stub
-		return null;
+	public byte[] getVariableHeader() throws MqttException {
+		return encodeMessageId();
 	}
 
 }
