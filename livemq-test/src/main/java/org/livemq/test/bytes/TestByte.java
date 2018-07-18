@@ -53,6 +53,7 @@ public class TestByte {
 		System.out.println(binary2Long("10000000 00000000 00000000 00000000"));	// -2147483648
 		System.out.println(binary2Long("1000000 00000000 00000000 00000000"));	// 
 		System.out.println(binary2Long("00000000 00000000 00000000 10000001"));	// 129
+		System.out.println(binary2Long("100000"));	// 32
 	}
 	
 	/**
