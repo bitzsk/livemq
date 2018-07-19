@@ -1,6 +1,5 @@
 package org.livemq.test.netty.codec;
 
-import java.util.Arrays;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -16,8 +15,8 @@ public class NettyDecoder extends ByteToMessageDecoder {
 			in.readBytes(bytes);
 			
 			if(bytes.length > 0) {
-				System.out.println(Arrays.toString(bytes));
-				
+				System.out.println("NettyDecoder " + bytes.length);
+				out.add(bytes);
 			}
 		}
 	}

@@ -1,8 +1,6 @@
 package org.livemq.test.netty.codec.test;
 
 import org.livemq.common.exception.MqttException;
-import org.livemq.core.wire.MqttDisconnect;
-import org.livemq.core.wire.MqttPingResp;
 import org.livemq.core.wire.MqttSubscribe;
 import org.livemq.test.netty.codec.NettyDecoder;
 import org.livemq.test.netty.codec.NettyEncoder;
@@ -21,10 +19,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class Client {
 
 	public static void main(String[] args) throws InterruptedException, MqttException {
-		sendMessage(new MqttSubscribe("ying", 1));
-		
-		sendMessage(new MqttDisconnect());
-		sendMessage(new MqttPingResp());
+		for (int i = 0; i < 5; i++) {
+			Thread.sleep(2000);
+			sendMessage(new MqttSubscribe("ying", 1));
+		}
 	}
 	
 	private static final String HOST = "127.0.0.1";

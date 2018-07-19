@@ -1,7 +1,5 @@
 package org.livemq.test.netty.codec;
 
-import java.util.Arrays;
-
 import org.livemq.core.wire.MqttWireMessage;
 
 import io.netty.buffer.ByteBuf;
@@ -15,7 +13,6 @@ public class NettyEncoder extends MessageToByteEncoder<MqttWireMessage> {
 		int len = msg.getHeader().length + msg.getPayload().length;
 		
 		System.out.println("NettyEncoder " + len);
-		System.out.println(Arrays.toString(msg.getHeader()) + " - " + Arrays.toString(msg.getPayload()));
 		
 		out.writeBytes(msg.getHeader());
 		out.writeBytes(msg.getPayload());

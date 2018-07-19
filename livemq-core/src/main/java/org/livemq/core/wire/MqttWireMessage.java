@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.livemq.common.exception.ExceptionHelper;
 import org.livemq.common.exception.MqttException;
@@ -84,7 +83,6 @@ public abstract class MqttWireMessage {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(baos);
 			try {
-				System.out.println("remLenEncode:" + Arrays.toString(remLenEncode));
 				dos.write(first);
 				dos.write(remLenEncode);
 				dos.write(varHeader);
