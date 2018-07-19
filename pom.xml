@@ -49,7 +49,7 @@
         <java.encoding>UTF-8</java.encoding>
 		<!-- other -->
 		<junit.version>4.12</junit.version>
-		<netty.version>4.1.25.Final</netty.version>
+		<netty.version>5.0.0.Alpha1</netty.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<json.version>20180130</json.version>
 		<redis.version>2.9.0</redis.version>

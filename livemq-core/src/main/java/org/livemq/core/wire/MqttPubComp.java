@@ -26,8 +26,12 @@ public class MqttPubComp extends MqttAck {
 	}
 
 	public MqttPubComp(MqttPubRel pubRel) {
+		this(pubRel.getMessageId());
+	}
+	
+	public MqttPubComp(int messageId) {
 		super(MqttWireMessage.MESSAGE_TYPE_PUBCOMP);
-		msgId = pubRel.getMessageId();
+		msgId = messageId;
 	}
 
 	@Override

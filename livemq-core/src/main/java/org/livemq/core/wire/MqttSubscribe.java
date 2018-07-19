@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.livemq.common.exception.ExceptionHelper;
 import org.livemq.common.exception.MqttException;
@@ -43,11 +44,16 @@ public class MqttSubscribe extends MqttWireMessage {
 		while(!end) {
 			try {
 				topics[count] = decodeUTF8(dis);
-				qos[count ++] = dis.readByte();
+				qos[count] = dis.readByte();
+				count ++;
 			} catch (Exception e) {
 				end = true;
 			}
 		}
+	}
+	
+	public MqttSubscribe(String topic, int qos) throws MqttException {
+		this(new String[] { topic}, new int[] { qos});
 	}
 	
 	public MqttSubscribe(String[] topics, int[] qos) throws MqttException {
@@ -96,6 +102,12 @@ public class MqttSubscribe extends MqttWireMessage {
 		} catch (IOException e) {
 			throw ExceptionHelper.createMqttException(e);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "MqttSubscribe [topics=" + Arrays.toString(topics) + ", qos=" + Arrays.toString(qos) + ", count=" + count
+				+ "]";
 	}
 	
 }

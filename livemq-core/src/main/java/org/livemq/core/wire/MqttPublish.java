@@ -32,6 +32,7 @@ public class MqttPublish extends MqttWireMessage {
 		message.setRetained((info & 0x01) == 0x01);
 		message.setQos((info >> 1) & 0x03);
 		message.setDuplicate((info & 0x08) == 0x08);
+		setDuplicate(message.isDuplicate());
 		
 		ByteArrayInputStream bais = new ByteArrayInputStream(data);
 		CountingInputStream counter = new CountingInputStream(bais);
@@ -102,6 +103,11 @@ public class MqttPublish extends MqttWireMessage {
 	@Override
 	public boolean isMessageIdRequired() {
 		return message.getQos() > 0;
+	}
+
+	@Override
+	public String toString() {
+		return "MqttPublish [topic=" + topic + ", message=" + message + "]";
 	}
 	
 }

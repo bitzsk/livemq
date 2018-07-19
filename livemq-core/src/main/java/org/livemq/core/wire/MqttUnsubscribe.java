@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.livemq.common.exception.ExceptionHelper;
 import org.livemq.common.exception.MqttException;
@@ -39,7 +40,8 @@ public class MqttUnsubscribe extends MqttWireMessage {
 		boolean end = false;
 		while(!end) {
 			try {
-				topics[count ++] = decodeUTF8(dis);
+				topics[count] = decodeUTF8(dis);
+				count ++;
 			} catch (Exception e) {
 				end = true;
 			}
@@ -89,4 +91,9 @@ public class MqttUnsubscribe extends MqttWireMessage {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "MqttUnsubscribe [topics=" + Arrays.toString(topics) + ", count=" + count + "]";
+	}
+	
 }

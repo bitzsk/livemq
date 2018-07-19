@@ -26,8 +26,12 @@ public class MqttPubRec extends MqttAck {
 	}
 
 	public MqttPubRec(MqttPublish publish) {
+		this(publish.getMessageId());
+	}
+	
+	public MqttPubRec(int messageId) {
 		super(MqttWireMessage.MESSAGE_TYPE_PUBREC);
-		msgId = publish.getMessageId();
+		msgId = messageId;
 	}
 
 	@Override

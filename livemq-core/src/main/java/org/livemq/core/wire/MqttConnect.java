@@ -36,6 +36,7 @@ public class MqttConnect extends MqttWireMessage {
 	private int keepAliveInterval;
 	private String willTopic;
 	private MqttMessage willMessage;
+	private String MqttName = PROTOCOL_NAME;
 	private int MqttVersion = PROTOCOL_VERSION;
 	
 	public MqttConnect(byte info, byte[] data) throws MqttException, IOException {
@@ -46,27 +47,46 @@ public class MqttConnect extends MqttWireMessage {
 		/**
 		 * 协议名，协议级别，连接标志和保持连接这四个是可变头部一定包含的
 		 */
-		String protocol_name = decodeUTF8(dis);
-		int protocol_version = dis.readByte();
+		MqttName = decodeUTF8(dis);
+		MqttVersion = dis.readByte();
 		byte connectFlags = dis.readByte();
 		keepAliveInterval = dis.readUnsignedShort();
-		/**
-		 * 客户端标识符是有效荷载中一定包含的
-		 */
-		clientId = decodeUTF8(dis);
 		
-		/**
-		 * 下面这四个：遗嘱主题，遗嘱内容，用户名和密码 在有效荷载中不一定存在。
-		 */
+		// 解析可变报头中的连接标志
+		clearSession = ((connectFlags >> 1) & 0x01) == 0x01;
+		boolean hasWill = ((connectFlags >> 2) & 0x01) == 0x01;
+		if(hasWill) {
+			willMessage = new MqttMessage();
+			int willQos = (connectFlags >> 3) & 0x03;
+			boolean isRetained = ((connectFlags >> 5) & 0x01) == 0x01;
+			willMessage.setQos(willQos);
+			willMessage.setRetained(isRetained);
+		}
+		boolean hasUsername = ((connectFlags >> 7) & 0x01) == 0x01;
+		boolean hasPassword = false;
+		if(hasUsername) {
+			hasPassword = ((connectFlags >> 6) & 0x01) == 0x01;
+		}
+		
+		/** 客户端标识符是有效荷载中一定包含的*/
+		clientId = decodeUTF8(dis);
+		/** 下面这四个：遗嘱主题，遗嘱内容，用户名和密码 在有效荷载中不一定存在，需要根据可变报头中的连接标志去判断。*/
 		try {
-			willTopic = decodeUTF8(dis);
-			int willPayloadLen = dis.readUnsignedShort();
-			byte[] payload = new byte[willPayloadLen];
-			dis.readFully(payload, 0, payload.length);
-			username = decodeUTF8(dis);
-			String pwd = decodeUTF8(dis);
-			if(pwd != null) {
-				password = pwd.toCharArray();
+			if(hasWill) {
+				willTopic = decodeUTF8(dis);
+				int willPayloadLen = dis.readUnsignedShort();
+				byte[] payload = new byte[willPayloadLen];
+				dis.readFully(payload, 0, payload.length);
+				willMessage.setPayload(payload);
+			}
+			if(hasUsername) {
+				username = decodeUTF8(dis);
+				if(hasPassword) {
+					String pwd = decodeUTF8(dis);
+					if(pwd != null) {
+						password = pwd.toCharArray();
+					}
+				}
 			}
 		} catch (Exception e) {}
 	}
@@ -91,7 +111,7 @@ public class MqttConnect extends MqttWireMessage {
 			DataOutputStream dos = new DataOutputStream(baos);
 			// 1.协议名
 			if(MqttVersion == PROTOCOL_VERSION) {
-				encodeUTF8(dos, PROTOCOL_NAME);
+				encodeUTF8(dos, MqttName);
 			}
 			// 2.协议级别
 			dos.write(MqttVersion);
@@ -172,13 +192,13 @@ public class MqttConnect extends MqttWireMessage {
 	public boolean isMessageIdRequired() {
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "MqttConnect [clientId=" + clientId + ", username=" + username + ", password="
 				+ Arrays.toString(password) + ", clearSession=" + clearSession + ", keepAliveInterval="
-				+ keepAliveInterval + ", willTopic=" + willTopic + ", willMessage=" + willMessage + ", MqttVersion="
-				+ MqttVersion + "]";
+				+ keepAliveInterval + ", willTopic=" + willTopic + ", willMessage=" + willMessage + ", MqttName="
+				+ MqttName + ", MqttVersion=" + MqttVersion + "]";
 	}
 	
 }

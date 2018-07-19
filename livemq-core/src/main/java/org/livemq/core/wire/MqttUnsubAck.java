@@ -25,6 +25,10 @@ public class MqttUnsubAck extends MqttAck {
 		msgId = dis.readUnsignedShort();
 	}
 	
+	public MqttUnsubAck(MqttUnsubscribe unsubscribe) {
+		this(unsubscribe.getMessageId());
+	}
+	
 	public MqttUnsubAck(int msgId) {
 		super(MqttWireMessage.MESSAGE_TYPE_UNSUBACK);
 		this.msgId = msgId;

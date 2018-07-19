@@ -40,5 +40,5 @@ public class MqttPingReq extends MqttWireMessage {
 	public boolean isMessageIdRequired() {
 		return false;
 	}
-
+	
 }

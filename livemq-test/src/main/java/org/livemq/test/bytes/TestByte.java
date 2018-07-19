@@ -35,6 +35,8 @@ public class TestByte {
 		System.out.println(toBinary(9)); 	// 1001
 		System.out.println(toBinary(10)); 	// 1010
 		System.out.println(toBinary(20)); 	// 10100
+		System.out.println(Integer.toBinaryString(128)); // 10000000
+		System.out.println(Integer.toBinaryString(127)); // 01111111
 	}
 	
 	/**

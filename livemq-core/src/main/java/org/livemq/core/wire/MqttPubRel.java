@@ -26,8 +26,12 @@ public class MqttPubRel extends MqttWireMessage {
 	}
 
 	public MqttPubRel(MqttPubRec pubRec) {
+		this(pubRec.getMessageId());
+	}
+	
+	public MqttPubRel(int messageId) {
 		super(MqttWireMessage.MESSAGE_TYPE_PUBREL);
-		msgId = pubRec.getMessageId();
+		msgId = messageId;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.livemq.common.exception.ExceptionHelper;
 import org.livemq.common.exception.MqttException;
@@ -36,7 +37,7 @@ public abstract class MqttWireMessage {
 	protected static final String CHARSET_UTF8 = "UTF-8";
 	
 	/** 0, 15: 保留*/
-	private static final String PACKET_NAMES[] = { "Reserved", "CONNECT", "CONNACK", "PUBLISH", "PUBACK", "PUBREC", "PUBREL",
+	static final String PACKET_NAMES[] = { "Reserved", "CONNECT", "CONNACK", "PUBLISH", "PUBACK", "PUBREC", "PUBREL",
 			"PUBCOMP", "SUBSCRIBE", "SUBACK", "UNSUBSCRIBE", "UNSUBACK", "PINGREQ", "PINGRESP", "DISCONNECT",
 			"Reserved" };
 
@@ -44,6 +45,8 @@ public abstract class MqttWireMessage {
 	private byte type;
 	// The MQTT message ID
 	protected int msgId;
+	
+	protected boolean duplicate = false;
 	
 	/** 报头 (包含固定报头和可变报头)*/
 	private byte[] encodeHeader = null;
@@ -81,6 +84,7 @@ public abstract class MqttWireMessage {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(baos);
 			try {
+				System.out.println("remLenEncode:" + Arrays.toString(remLenEncode));
 				dos.write(first);
 				dos.write(remLenEncode);
 				dos.write(varHeader);
@@ -138,6 +142,14 @@ public abstract class MqttWireMessage {
 	}
 	
 	/**
+	 * 设置该消息是否为重发消息
+	 * @param duplicate
+	 */
+	public void setDuplicate(boolean duplicate) {
+		this.duplicate = duplicate;
+	}
+	
+	/**
 	 * 报文标识符
 	 * @return msgId
 	 * @throws MqttException
@@ -163,9 +175,9 @@ public abstract class MqttWireMessage {
 	public static byte[] encodeMBI(long remLen) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		do {
-			byte encodeByte = (byte) (remLen % 128);
-			remLen /= 128;
-			if(remLen > 0) encodeByte |= 128;
+			byte encodeByte = (byte) (remLen % 0x80);
+			remLen /= 0x80;
+			if(remLen > 0) encodeByte |= 0x80;
 			baos.write(encodeByte);
 		} while (remLen > 0);
 		return baos.toByteArray();
@@ -185,12 +197,12 @@ public abstract class MqttWireMessage {
 		try {
 			do {
 				encodeByte = in.readByte();
-				value += (encodeByte & 127) * multiplier;
-				multiplier *= 128;
-				if(multiplier > 128*128*128) {
+				value += (encodeByte & 0x7f) * multiplier;
+				multiplier *= 0x80;
+				if(multiplier > 0x80*0x80*0x80) {
 					throw ExceptionHelper.createMqttException("Malformed Remaining Length");
 				}
-			} while ((encodeByte & 128) != 0);
+			} while ((encodeByte & 0x80) != 0);
 		} catch (IOException e) {
 			throw ExceptionHelper.createMqttException(e);
 		}
@@ -317,10 +329,10 @@ public abstract class MqttWireMessage {
 		
 		return message;
 	}
-	
+
 	@Override
 	public String toString() {
-		return PACKET_NAMES[type];
+		return PACKET_NAMES[getType()] + " msgId: " + msgId;
 	}
 	
 }

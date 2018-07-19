@@ -7,9 +7,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
 /**
- * 解码器
+ * 
+ * @Title MqttDecoder
+ * @Package org.livemq.netty.codec
+ * @Description TODO
  * @author xinxisimple@163.com
- * @date 2018-07-04 16:56
+ * @date 2018-07-19 15:46
+ * @version 1.0.0
  */
 public class MqttDecoder extends ByteToMessageDecoder {
 
@@ -19,11 +23,7 @@ public class MqttDecoder extends ByteToMessageDecoder {
 		in.readBytes(bytes);
 		
 		// log start
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < bytes.length; i++) {
-			buffer.append(bytes[i] + " ");
-		}
-		System.out.println("MqttDecoder ... " + "bytes len: " + bytes.length + ", content: " + buffer.toString());
+		System.out.println("MqttDecoder " + bytes.length);
 		// log end
 		
 		out.add(bytes);

@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.livemq.common.exception.ExceptionHelper;
 import org.livemq.common.exception.MqttException;
@@ -49,6 +50,10 @@ public class MqttSubAck extends MqttAck {
 		}
 	}
 
+	public MqttSubAck(MqttSubscribe subscribe, int grantedQos) {
+		this(subscribe.getMessageId(), grantedQos);
+	}
+	
 	public MqttSubAck(int msgId, int grantedQos) {
 		this(msgId, new int[] { grantedQos});
 	}
@@ -79,6 +84,11 @@ public class MqttSubAck extends MqttAck {
 		} catch (IOException e) {
 			throw ExceptionHelper.createMqttException(e);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "MqttSubAck [grantedQos=" + Arrays.toString(grantedQos) + "]";
 	}
 	
 }
