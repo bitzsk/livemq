@@ -14,6 +14,8 @@ import io.netty.handler.codec.ByteToMessageDecoder;
  * @author xinxisimple@163.com
  * @date 2018-07-19 15:46
  * @version 1.0.0
+ * @see https://blog.csdn.net/scythe666/article/details/51996268
+ * @see https://blog.csdn.net/linsongbin1/article/details/77915686
  */
 public final class MqttDecoder extends ByteToMessageDecoder {
 	
