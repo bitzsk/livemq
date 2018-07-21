@@ -1,4 +1,4 @@
-package org.livemq.test.netty;
+package org.livemq.test.netty.mqtt;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;

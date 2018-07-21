@@ -1,5 +1,6 @@
 package org.livemq.core.wire;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -93,6 +94,15 @@ public abstract class MqttWireMessage {
 			}
 		}
 		return encodeHeader;
+	}
+	
+	/**
+	 * 返回报文的总长度 （头部 and 有效荷载）
+	 * @return
+	 * @throws MqttException
+	 */
+	public int length() throws MqttException {
+		return getHeader().length + getPayload().length;
 	}
 	
 	/**
@@ -261,7 +271,13 @@ public abstract class MqttWireMessage {
 	 * @return
 	 * @throws MqttException 
 	 */
-	public static MqttWireMessage createWireMessage(DataInputStream dis) throws MqttException {
+	public static MqttWireMessage createWireMessage(byte[] bytes) throws MqttException {
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		DataInputStream dis = new DataInputStream(bais);
+		return createWireMessage(dis);
+	}
+	
+	private static MqttWireMessage createWireMessage(DataInputStream dis) throws MqttException {
 		MqttWireMessage message = null;
 		
 		try {
@@ -324,7 +340,6 @@ public abstract class MqttWireMessage {
 		} catch (IOException e) {
 			throw ExceptionHelper.createMqttException(e);
 		}
-		
 		return message;
 	}
 

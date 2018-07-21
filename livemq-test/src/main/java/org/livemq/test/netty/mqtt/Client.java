@@ -1,5 +1,6 @@
-package org.livemq.test.netty;
+package org.livemq.test.netty.mqtt;
 
+import org.livemq.common.exception.MqttException;
 import org.livemq.core.message.MqttMessage;
 import org.livemq.core.wire.MqttConnAck;
 import org.livemq.core.wire.MqttConnect;
@@ -18,8 +19,6 @@ import org.livemq.core.wire.MqttUnsubscribe;
 import org.livemq.core.wire.MqttWireMessage;
 import org.livemq.netty.codec.MqttDecoder;
 import org.livemq.netty.codec.MqttEncoder;
-import org.livemq.test.netty.codec.NettyDecoder;
-import org.livemq.test.netty.codec.NettyEncoder;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -34,82 +33,89 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class Client {
 
-	public static void main(String[] args) {
-		MqttWireMessage message = null;
-		try {
-//			// CONNECT
-//			String clientId = "admin";
-//			String username = "xinxisimple";
-//			char[] password = "123456".toCharArray();
-//			boolean clearSession = true;
-//			int keepAlive = 120;
-//			String willTopic = "ying";
-//			MqttMessage willMessage = new MqttMessage();
-//			willMessage.setPayload("This is will message payload.".getBytes());
-//			willMessage.setRetained(true);
-//			willMessage.setQos(2);
-//			message = new MqttConnect(clientId, username, password, clearSession, keepAlive, willTopic, willMessage);
-//			
-//			// CONNACK
-//			message = new MqttConnAck(1, MqttConnAck.FAIL_TOKEN);
-//			
-//			// PUBLISH
-//			String topic = "ying";
-//			MqttMessage msg = new MqttMessage("Hi LiveMQ ...".getBytes());
-//			message = new MqttPublish(topic, msg);
-//			
-//			// PUBACK
-//			message = new MqttPubAck(2);
-//			
-//			// PUBREC
-//			message = new MqttPubRec(2);
-//			
-//			// PUBREL
-//			message = new MqttPubRel(2);
-//			
-//			// PUBCOMP
-//			message = new MqttPubComp(2);
-//			
-//			// SUBSCRIBE
-//			String subTopic = "ying";
-//			int qos = 1;
-//			message = new MqttSubscribe(subTopic, qos);
-//			
-//			// SUBACK
-//			message = new MqttSubAck(2, 1);
-//			
-//			// UNSUBSCRIBE
-//			String unsubTopic = "lucy";
-//			message = new MqttUnsubscribe(unsubTopic);
-//			
-//			// UNSUBACK
-//			message = new MqttUnsubAck(2);
-//			
-//			// PINGREQ
-//			message = new MqttPingReq();
-//			
-//			// PINGRESP
-//			message = new MqttPingResp();
-//			
-//			// DISCONNECT
-//			message = new MqttDisconnect();
-//			
-//			sendMessage(message);
-			
-//			// 测试一次发多条消息
-//			sendMessage(new MqttPingReq());
-//			sendMessage(new MqttDisconnect());
-//			sendMessage(new MqttPingResp());
-			
-			// 测试编解码器的问题
-			sendMessage("M");
-			sendMessage("Q");
-			sendMessage("T");
-			sendMessage("T");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static void main(String[] args) throws InterruptedException, MqttException {
+		// 测试 tcp 拆包/粘包 现象
+		// 1.拆包 (success)
+		// 说明:发送一条有效荷载非常大的消息
+		String str = "";
+		for (int i = 0; i < 200; i++) {
+			str += ("mqtt超大消息" + i);
 		}
+		System.out.println(str);
+		MqttMessage m1 = new MqttMessage(str.getBytes());
+		MqttPublish publish = new MqttPublish("ying", m1);
+		sendMessage(publish);
+		
+		// 2.粘包 (success)
+		// 说明:发送多条较小的消息，让 tcp 将多条较小的消息汇聚成一个大消息一次发送
+		sendMessage(new MqttPingReq());
+		sendMessage(new MqttPingResp());
+		sendMessage(new MqttSubAck(1, 1));
+		
+		// 3.拆包 / 粘包 一起测试 (success)
+		// 说明:将上面的测试 1 和 测试 2 全部打开发送
+		
+		
+//		// 以下为测试发送 MQTT 消息
+//		MqttWireMessage message = null;
+//		// CONNECT (success)
+//		String clientId = "admin";
+//		String username = "xinxisimple";
+//		char[] password = "123456".toCharArray();
+//		boolean clearSession = true;
+//		int keepAlive = 120;
+//		String willTopic = "ying";
+//		MqttMessage willMessage = new MqttMessage();
+//		willMessage.setPayload("This is will message payload.".getBytes());
+//		willMessage.setRetained(true);
+//		willMessage.setQos(2);
+//		message = new MqttConnect(clientId, username, password, clearSession, keepAlive, willTopic, willMessage);
+//		
+//		// CONNACK (success)
+//		message = new MqttConnAck(1, MqttConnAck.FAIL_TOKEN);
+//		
+//		// PUBLISH (success)
+//		String topic = "ying";
+//		MqttMessage msg = new MqttMessage("Hi LiveMQ ...".getBytes());
+//		message = new MqttPublish(topic, msg);
+//		
+//		// PUBACK (success)
+//		message = new MqttPubAck(2);
+//		
+//		// PUBREC (success)
+//		message = new MqttPubRec(2);
+//		
+//		// PUBREL (success)
+//		message = new MqttPubRel(2);
+//		
+//		// PUBCOMP (success)
+//		message = new MqttPubComp(2);
+//		
+//		// SUBSCRIBE (success)
+//		String subTopic = "ying";
+//		int qos = 1;
+//		message = new MqttSubscribe(subTopic, qos);
+//		
+//		// SUBACK (success)
+//		message = new MqttSubAck(2, 1);
+//		
+//		// UNSUBSCRIBE (success)
+//		String unsubTopic = "lucy";
+//		message = new MqttUnsubscribe(unsubTopic);
+//		
+//		// UNSUBACK (success)
+//		message = new MqttUnsubAck(2);
+//		
+//		// PINGREQ (success)
+//		message = new MqttPingReq();
+//		
+//		// PINGRESP (success)
+//		message = new MqttPingResp();
+//		
+//		// DISCONNECT (success)
+//		message = new MqttDisconnect();
+//		
+//		sendMessage(message);
 	}
 	
 	private static final String HOST = "127.0.0.1";
@@ -128,10 +134,8 @@ public class Client {
 			@Override
 			protected void initChannel(SocketChannel ch) throws Exception {
 				ChannelPipeline pipeline = ch.pipeline();
-//				pipeline.addLast(new MqttEncoder());
-//				pipeline.addLast(new MqttDecoder());
-				pipeline.addLast(new NettyEncoder());
-				pipeline.addLast(new NettyDecoder());
+				pipeline.addLast(new MqttEncoder());
+				pipeline.addLast(new MqttDecoder());
 				pipeline.addLast(new ClientHandler());
 			}
 		});
@@ -177,6 +181,7 @@ public class Client {
 						}else if(future.cause() !=null) {
 							System.out.println("消息发送失败~~");
 						}
+						System.out.println();
 					}
 				}
 			});

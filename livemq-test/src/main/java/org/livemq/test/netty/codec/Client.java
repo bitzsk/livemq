@@ -1,7 +1,6 @@
-package org.livemq.test.netty.codec.test;
+package org.livemq.test.netty.codec;
 
 import org.livemq.common.exception.MqttException;
-import org.livemq.core.wire.MqttSubscribe;
 import org.livemq.test.netty.codec.NettyDecoder;
 import org.livemq.test.netty.codec.NettyEncoder;
 
@@ -19,10 +18,37 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class Client {
 
 	public static void main(String[] args) throws InterruptedException, MqttException {
-		for (int i = 0; i < 5; i++) {
-			Thread.sleep(2000);
-			sendMessage(new MqttSubscribe("ying", 1));
+		
+		/**
+		 * 1.测试普通消息
+		 */
+//		Message m1 = new Message("netty".getBytes());
+//		sendMessage(m1);
+		
+		/**
+		 * 2.测试拆包
+		 * 
+		 * 说明: 将该消息的有效荷载增大至 tcp 传输时需要 2 个以上的请求才可以处理完毕时
+		 */
+//		String payload = "";
+//		for (int i = 0; i < 200; i++) {
+//			payload += ("payload" + i);
+//		}
+//		System.out.println(payload);
+//		Message m2 = new Message(payload.getBytes());
+//		sendMessage(m2);
+		
+		/**
+		 * 3.测试粘包
+		 * 
+		 * 说明: 发送多个报文到服务端
+		 */
+		Message m3 = null;
+		for (int i = 0; i < 10; i++) {
+			m3 = new Message(("hello"+i).getBytes());
+			sendMessage(m3);
 		}
+		
 	}
 	
 	private static final String HOST = "127.0.0.1";
@@ -73,7 +99,7 @@ public class Client {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	private static void sendMessage(Object message) throws InterruptedException {
+	private static void sendMessage(Message message) throws InterruptedException {
 		if (channel != null) {
 			ChannelFuture future = channel.writeAndFlush(message).sync();
 			future.addListener(new ChannelFutureListener() {
@@ -88,6 +114,7 @@ public class Client {
 						}else if(future.cause() !=null) {
 							System.out.println("消息发送失败~~");
 						}
+						System.out.println();
 					}
 				}
 			});

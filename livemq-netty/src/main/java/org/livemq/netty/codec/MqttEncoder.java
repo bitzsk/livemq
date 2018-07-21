@@ -15,17 +15,14 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @date 2018-07-19 15:46
  * @version 1.0.0
  */
-public class MqttEncoder extends MessageToByteEncoder<MqttWireMessage> {
-
+public final class MqttEncoder extends MessageToByteEncoder<MqttWireMessage> {
+	
 	@Override
 	protected void encode(ChannelHandlerContext ctx, MqttWireMessage msg, ByteBuf out) throws Exception {
-		// log start
-		int len = msg.getHeader().length + msg.getPayload().length;
-		System.out.println("MqttEncoder " + len);
-		// log end
-		
+		out.writeInt(msg.length());
 		out.writeBytes(msg.getHeader());
 		out.writeBytes(msg.getPayload());
+		System.out.println("encoder");
 	}
 
 }

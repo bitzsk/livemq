@@ -1,9 +1,7 @@
-package org.livemq.test.netty;
+package org.livemq.test.netty.mqtt;
 
 import org.livemq.netty.codec.MqttDecoder;
 import org.livemq.netty.codec.MqttEncoder;
-import org.livemq.test.netty.codec.NettyDecoder;
-import org.livemq.test.netty.codec.NettyEncoder;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -40,10 +38,8 @@ public class Server {
 				@Override
 				protected void initChannel(SocketChannel ch) throws Exception {
 					ChannelPipeline pipeline = ch.pipeline();
-//					pipeline.addLast(new MqttEncoder());
-//					pipeline.addLast(new MqttDecoder());
-					pipeline.addLast(new NettyEncoder());
-					pipeline.addLast(new NettyDecoder());
+					pipeline.addLast(new MqttEncoder());
+					pipeline.addLast(new MqttDecoder());
 					pipeline.addLast(new ServerHandler());
 				}
 			});

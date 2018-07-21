@@ -1,4 +1,4 @@
-package org.livemq.test.netty.codec.test;
+package org.livemq.test.netty.codec;
 
 import org.livemq.test.netty.codec.NettyDecoder;
 import org.livemq.test.netty.codec.NettyEncoder;
