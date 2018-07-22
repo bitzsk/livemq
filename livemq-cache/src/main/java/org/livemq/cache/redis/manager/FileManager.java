@@ -33,4 +33,22 @@ public class FileManager implements CacheManager {
 		Logs.CACHE.info("file destroy.");
 	}
 
+	@Override
+	public void set(String key, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void set(String key, String value, int expireTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String get(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
