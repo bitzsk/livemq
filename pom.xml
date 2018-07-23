@@ -51,7 +51,7 @@
 		<junit.version>4.12</junit.version>
 		<netty.version>5.0.0.Alpha1</netty.version>
 		<slf4j.version>1.7.25</slf4j.version>
-		<json.version>20180130</json.version>
+		<fastjson.version>1.2.47</fastjson.version>
 		<redis.version>2.9.0</redis.version>
 		<zk.curator.version>4.0.1</zk.curator.version>
 		<mqttv3.version>1.2.0</mqttv3.version>
@@ -84,11 +84,11 @@
 			    <version>${slf4j.version}</version>
 			</dependency>
 
-			<!-- json -->
+			<!-- fastjson -->
 			<dependency>
-			    <groupId>org.json</groupId>
-			    <artifactId>json</artifactId>
-			    <version>${json.version}</version>
+			    <groupId>com.alibaba</groupId>
+			    <artifactId>fastjson</artifactId>
+			    <version>${fastjson.version}</version>
 			</dependency>
 			<!-- redis -->
 			<dependency>

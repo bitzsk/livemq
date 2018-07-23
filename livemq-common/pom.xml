@@ -20,14 +20,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>livemq-tools</artifactId>
 		</dependency>
-		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-simple</artifactId>
-		</dependency>
 	</dependencies>
 
 </project>

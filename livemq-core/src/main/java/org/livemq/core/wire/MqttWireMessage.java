@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.livemq.api.constant.Charsets;
 import org.livemq.common.exception.ExceptionHelper;
 import org.livemq.common.exception.MqttException;
 
@@ -34,8 +35,6 @@ public abstract class MqttWireMessage {
 	public static final byte MESSAGE_TYPE_PINGRESP = 13;
 	public static final byte MESSAGE_TYPE_DISCONNECT = 14;
 
-	protected static final String CHARSET_UTF8 = "UTF-8";
-	
 	/** 0, 15: 保留*/
 	static final String PACKET_NAMES[] = { "Reserved", "CONNECT", "CONNACK", "PUBLISH", "PUBACK", "PUBREC", "PUBREL",
 			"PUBCOMP", "SUBSCRIBE", "SUBACK", "UNSUBSCRIBE", "UNSUBACK", "PINGREQ", "PINGRESP", "DISCONNECT",
@@ -233,7 +232,7 @@ public abstract class MqttWireMessage {
 	 */
 	public static void encodeUTF8(DataOutputStream dos, String str) throws MqttException {
 		try {
-			byte[] bytes = str.getBytes(CHARSET_UTF8);
+			byte[] bytes = str.getBytes(Charsets.UTF_8);
 			byte msb = (byte) ((bytes.length >>> 8) & 0xFF);
 			byte lsb = (byte) ((bytes.length >>> 0) & 0xFF);
 			dos.write(msb);
@@ -258,7 +257,7 @@ public abstract class MqttWireMessage {
 			
 			byte[] str = new byte[len];
 			dis.readFully(str);
-			content = new String(str, CHARSET_UTF8);
+			content = new String(str, Charsets.UTF_8);
 		} catch (IOException e) {
 			throw ExceptionHelper.createMqttException(e);
 		}
