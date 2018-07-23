@@ -29,10 +29,6 @@ public class TestFunction {
 		MyFunction<User> f2 = new MyFunction<>();
 		String str = f2.apply(u);
 		System.out.println(str);
-		
-		Function<User, String> f3 = user -> user.name + ":" + user.age;
-		f3.andThen(user -> user.name)
-		
 	}
 	
 	@Test
