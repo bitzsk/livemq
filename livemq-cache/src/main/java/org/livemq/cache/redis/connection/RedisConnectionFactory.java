@@ -27,7 +27,7 @@ import redis.clients.util.Pool;
  * @date 2018-07-21 18:30
  * @version 1.0.0
  */
-public class RedisConnectionFactory {
+public final class RedisConnectionFactory {
 	private static final Logger logger = LoggerFactory.getLogger(RedisConnectionFactory.class);
 	
 	/** 最大活跃连接数，默认：30*/
@@ -53,6 +53,7 @@ public class RedisConnectionFactory {
 	private int port = Protocol.DEFAULT_PORT;
 	/** 与服务器建立连接超时时间 (单位: 毫秒)*/
 	private int timeout = Protocol.DEFAULT_TIMEOUT;
+	// TODO: Not used
 	private String password;
 	
 	private List<RedisNode> nodes = new ArrayList<>();
@@ -95,6 +96,14 @@ public class RedisConnectionFactory {
 			}
 			cluster = null;
 		}
+	}
+	
+	/**
+	 * close jedis
+	 * @param jedis
+	 */
+	public void close(Jedis jedis) {
+		jedis.close();
 	}
 	
 	/**
@@ -151,7 +160,7 @@ public class RedisConnectionFactory {
 		
 		return new JedisCluster(set, timeout, config);
 	}
-
+	
 	/**
 	 * 设置 Redis 节点
 	 * @param node
@@ -179,7 +188,19 @@ public class RedisConnectionFactory {
 		}
 	}
 	
+	/**
+	 * 设置 redis 密码
+	 * @param password
+	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	/**
+	 * 返回 redis 是否为集群模式
+	 * @return
+	 */
+	public boolean isCluster() {
+		return isCluster;
 	}
 }

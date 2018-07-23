@@ -1,8 +1,18 @@
 package org.livemq.cache.redis.manager;
 
-import org.livemq.api.spi.common.CacheManager;
-import org.livemq.common.log.Logs;
+import java.util.List;
 
+import org.livemq.api.spi.common.CacheManager;
+
+/**
+ * 
+ * @Title FileManager
+ * @Package org.livemq.cache.redis.manager
+ * @Description TODO
+ * @author xinxisimple@163.com
+ * @date 2018-07-23 17:52
+ * @version 1.0.0
+ */
 public class FileManager implements CacheManager {
 
 	private static volatile FileManager instance;
@@ -19,30 +29,23 @@ public class FileManager implements CacheManager {
 	}
 	
 	private FileManager() {}
-	
+
 	@Override
 	public void init() {
-		Logs.CACHE.info("begin init file...");
+		// TODO Auto-generated method stub
 		
-		
-		Logs.CACHE.info("init file success.");
 	}
 
 	@Override
 	public void destroy() {
-		Logs.CACHE.info("file destroy.");
-	}
-
-	@Override
-	public void set(String key, String value) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void set(String key, String value, int expireTime) {
+	public String set(String key, String value) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
@@ -51,4 +54,64 @@ public class FileManager implements CacheManager {
 		return null;
 	}
 
+	@Override
+	public Boolean exists(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long expire(String key, int seconds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long ttl(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long incr(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long hset(String key, String field, String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String hget(String key, String field) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long hdel(String key, String... field) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean hexists(String key, String field) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> hvals(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long del(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
