@@ -51,6 +51,7 @@
 		<junit.version>4.12</junit.version>
 		<netty.version>5.0.0.Alpha1</netty.version>
 		<slf4j.version>1.7.25</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
 		<fastjson.version>1.2.47</fastjson.version>
 		<redis.version>2.9.0</redis.version>
 		<zk.curator.version>4.0.1</zk.curator.version>
@@ -71,16 +72,26 @@
 			    <artifactId>netty-all</artifactId>
 			    <version>${netty.version}</version>
 			</dependency>
-			<!-- 日志 -->
+			
+			<!-- ========================================= -->
+			<!-- ====================日志================== -->
+			<!-- ========================================= -->
+			<!-- slf4j -->
 			<dependency>
 			    <groupId>org.slf4j</groupId>
 			    <artifactId>slf4j-api</artifactId>
 			    <version>${slf4j.version}</version>
 			</dependency>
-			<!--simple dispatch to slf4j-->
+			<!-- log4j -->
+			<dependency>
+			    <groupId>log4j</groupId>
+			    <artifactId>log4j</artifactId>
+			    <version>${log4j.version}</version>
+			</dependency>
+			<!--log4j12 dispatch to slf4j-->
 			<dependency>
 			    <groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-simple</artifactId>
+			    <artifactId>slf4j-log4j12</artifactId>
 			    <version>${slf4j.version}</version>
 			</dependency>
 

@@ -20,15 +20,26 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>livemq-api</artifactId>
 		</dependency>
-		<!-- log -->
+		
+		<!-- ========================================= -->
+		<!-- ====================日志================== -->
+		<!-- ========================================= -->
+		<!-- slf4j -->
 		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-api</artifactId>
 		</dependency>
+		<!-- log4j -->
+		<dependency>
+		    <groupId>log4j</groupId>
+		    <artifactId>log4j</artifactId>
+		</dependency>
+		<!--log4j12 dispatch to slf4j-->
 		<dependency>
 		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-simple</artifactId>
+		    <artifactId>slf4j-log4j12</artifactId>
 		</dependency>
+		
 		<!-- fastjson -->
 		<dependency>
 		    <groupId>com.alibaba</groupId>

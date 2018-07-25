@@ -21,8 +21,7 @@ public class ServerLauncher {
 			.setNext(new ServiceDiscoveryServer()) // 3.启动服务发现
 			// 4.启动 netty 服务
 			// 5.启动 websocket 服务
-			// 6.启动控制台服务(在控制台打印消息?)
-			// 7.启动监控服务
+			// 6.启动监控服务
 			.end();
 	}
 	

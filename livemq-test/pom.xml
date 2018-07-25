@@ -29,6 +29,10 @@
 			<artifactId>livemq-cache</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>livemq-zk</artifactId>
+		</dependency>
+		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
 		    <scope>test</scope>
