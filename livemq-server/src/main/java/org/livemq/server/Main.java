@@ -1,12 +1,13 @@
 package org.livemq.server;
 
-import org.livemq.common.log.Logs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
+	private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
-		Logs.init();
-		Logs.CONSOLE.info("launch livemq server...");
+		logger.info("launch livemq server...");
 		ServerLauncher launcher = new ServerLauncher();
 		launcher.init();
 		launcher.start();
@@ -22,9 +23,9 @@ public class Main {
 				try {
                     launcher.stop();
                 } catch (Exception e) {
-                	Logs.CONSOLE.error("mpush server stop ex", e);
+                	logger.error("mpush server stop ex", e);
                 }
-                Logs.CONSOLE.info("jvm exit, all service stopped.");
+				logger.info("jvm exit, all service stopped.");
 			}
 		}, "livemq-shutdown-hook-thread"));
 	}

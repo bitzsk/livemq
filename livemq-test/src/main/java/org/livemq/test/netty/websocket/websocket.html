@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Context-Type" content="text/html; charset=utf-8">
+	<title>Netty - WebSocket</title>
+	<style type="text/css">
+	*{
+		padding: 0;
+		margin: 0;
+		-webkit-box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    box-sizing: border-box;
+	}
+	body{
+		padding: 20px;
+	}
+	.message{
+		display: block;
+		height: 40px;
+		line-height: 40px;
+		width: 100%;
+		padding: 0 10px;
+	}
+	.submit{
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		background-color: #000;
+		border-radius: 4px;
+		color: #fff;
+		margin: 20px 0;
+		font-size: 1rem;
+		cursor: pointer;
+		transition: all ease-in-out .3s;
+		border: 0;
+	}
+	.submit:hover{
+		opacity: 0.9;
+	}
+	.title{
+		margin-bottom: 10px;
+		font-size: 13px;
+		color: #333;
+	}
+	.response{
+		display: block;
+		height: 500px;
+		line-height: 24px;
+		width: 100%;
+		padding: 0 10px;
+	}
+	</style>
+</head>
+<body>
+
+<form onsubmit="return false;">
+	<input type="text" name="message" value="" class="message" autofocus="autofocus" placeholder="" />
+	<input type="button" value="发送消息" class="submit" onclick="send(this.form.message.value)" />
+	<p class="title">消息列表：</p>
+	<textarea class="response" id="response"></textarea>
+</form>
+
+<script type="text/javascript">
+var socket;
+if(!window.WebSocket){
+	window.WebSocket = window.MozWebSocket;
+}
+
+if(window.WebSocket){
+	socket = new WebSocket("ws://127.0.0.1:8089");
+	var response = document.getElementById("response");
+	socket.onmessage = function(event){
+		response.value += event.data + "\r\n"
+	};
+
+	socket.onopen = function(event){
+		response.value = "当前浏览器支持WebSocket，请进行后续操作\r\n"
+	};
+
+	socket.onclose = function(event){
+		response.value += "WebSocket连接已经关闭\r\n"
+	};
+}else{
+	alert("浏览器不支持WebSocket");
+}
+
+function send(message){
+	if(!window.WebSocket){
+		return;
+	}
+
+	if(socket.readyState == WebSocket.OPEN){
+		socket.send(message);
+	}else{
+		alert("WebSocket连接没有建立成功。");
+	}
+}
+
+</script>
+</body>
+</html>

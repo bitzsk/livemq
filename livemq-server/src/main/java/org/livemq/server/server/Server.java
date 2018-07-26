@@ -1,9 +1,11 @@
 package org.livemq.server.server;
 
-import org.livemq.common.log.Logs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class Server {
-
+	private static final Logger logger = LoggerFactory.getLogger(Server.class);
+	
 	protected Server next;
 	
 	protected abstract void start();
@@ -12,7 +14,7 @@ public abstract class Server {
 	
 	public void startNext() {
 		if(next != null) {
-			Logs.CONSOLE.info("start server [{}]", getNextName());
+			logger.info("start server [{}]", getNextName());
 			next.start();
 		}
 	}
@@ -20,7 +22,7 @@ public abstract class Server {
 	public void stopNext() {
 		if(next != null) {
 			next.stop();
-			Logs.CONSOLE.info("stopped server [{}]", getNextName());
+			logger.info("stopped server [{}]", getNextName());
 		}
 	}
 	

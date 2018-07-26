@@ -1,24 +1,26 @@
 package org.livemq.server.server;
 
-import org.livemq.common.log.Logs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServerChain {
-
+	private static final Logger logger = LoggerFactory.getLogger(ServerChain.class);
+	
 	private final Server server = new Server() {
 		
 		@Override
 		protected void start() {
-			Logs.CONSOLE.info("server chain startting...");
+			logger.info("server chain startting...");
 			startNext();
 		}
 		
 		@Override
 		protected void stop() {
 			stopNext();
-			Logs.CONSOLE.info("server chain stopped.");
-			Logs.CONSOLE.info("=======================================================================");
-			Logs.CONSOLE.info("======================LIVEMQ SERVER STOPPED SUCCESS====================");
-			Logs.CONSOLE.info("=======================================================================");
+			logger.info("server chain stopped.");
+			logger.info("=======================================================================");
+			logger.info("======================LIVEMQ SERVER STOPPED SUCCESS====================");
+			logger.info("=======================================================================");
 		}
 		
 		@Override
@@ -43,15 +45,15 @@ public class ServerChain {
 
 			@Override
 			protected void start() {
-				Logs.CONSOLE.info("server chain started.");
-				Logs.CONSOLE.info("=======================================================================");
-				Logs.CONSOLE.info("======================LIVEMQ SERVER START SUCCESS======================");
-				Logs.CONSOLE.info("=======================================================================");
+				logger.info("server chain started.");
+				logger.info("=======================================================================");
+				logger.info("======================LIVEMQ SERVER START SUCCESS======================");
+				logger.info("=======================================================================");
 			}
 			
 			@Override
 			protected void stop() {
-				Logs.CONSOLE.info("server chain stopping...");
+				logger.info("server chain stopping...");
 			}
 			
 			@Override

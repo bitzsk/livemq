@@ -7,7 +7,8 @@ import java.util.function.Function;
 import org.livemq.api.spi.common.CacheManager;
 import org.livemq.cache.redis.connection.RedisConnectionFactory;
 import org.livemq.common.data.RedisNode;
-import org.livemq.common.log.Logs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCommands;
@@ -22,7 +23,8 @@ import redis.clients.jedis.JedisCommands;
  * @version 1.0.0
  */
 public final class RedisManager implements CacheManager {
-
+	private static final Logger logger = LoggerFactory.getLogger(RedisManager.class);
+	
 	private static volatile RedisManager instance;
 	
 	private final RedisConnectionFactory factory = new RedisConnectionFactory();
@@ -42,10 +44,10 @@ public final class RedisManager implements CacheManager {
 	
 	@Override
 	public void init() {
-		Logs.CACHE.info("begin init redis...");
+		logger.info("begin init redis...");
 		factory.setNode(new RedisNode("192.168.10.170", 6379));
 		factory.init();
-		Logs.CACHE.info("init redis success.");
+		logger.info("init redis success.");
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public final class RedisManager implements CacheManager {
 			try {
 				return function.apply(factory.getJedisCluster());
 			} catch (Exception e) {
-				Logs.CACHE.error("redis ex", e);
+				logger.error("redis ex", e);
 				throw new RuntimeException(e);
 			}
 		}else {
@@ -74,7 +76,7 @@ public final class RedisManager implements CacheManager {
 				jedis = factory.getJedis();
 				return function.apply(jedis);
 			} catch(Exception e) {
-				Logs.CACHE.error("redis ex", e);
+				logger.error("redis ex", e);
 				throw new RuntimeException(e);
 			} finally {
 				try {
@@ -82,7 +84,7 @@ public final class RedisManager implements CacheManager {
 						factory.close(jedis);
 					}
 				} catch (Exception ex) {
-					Logs.CACHE.error("jedis close ex", ex);
+					logger.error("jedis close ex", ex);
 					throw new RuntimeException(ex);
 				}
 			}
@@ -99,7 +101,7 @@ public final class RedisManager implements CacheManager {
 			try {
 				consumer.accept(factory.getJedisCluster());
 			} catch (Exception e) {
-				Logs.CACHE.error("redis ex", e);
+				logger.error("redis ex", e);
 				throw new RuntimeException(e);
 			}
 		}else {
@@ -108,7 +110,7 @@ public final class RedisManager implements CacheManager {
 				jedis = factory.getJedis();
 				consumer.accept(jedis);
 			} catch(Exception e) {
-				Logs.CACHE.error("redis ex", e);
+				logger.error("redis ex", e);
 				throw new RuntimeException(e);
 			} finally {
 				try {
@@ -116,7 +118,7 @@ public final class RedisManager implements CacheManager {
 						factory.close(jedis);
 					}
 				} catch (Exception ex) {
-					Logs.CACHE.error("jedis close ex", ex);
+					logger.error("jedis close ex", ex);
 					throw new RuntimeException(ex);
 				}
 			}

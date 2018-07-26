@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.livemq.api.spi.common.ServiceDiscovery;
 import org.livemq.api.spi.common.ServiceRegistry;
-import org.livemq.common.log.Logs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ZKServiceRegistryAndDiscovery implements ServiceRegistry, ServiceDiscovery {
-
+	private static final Logger logger = LoggerFactory.getLogger(ZKServiceRegistryAndDiscovery.class);
+	
 	private static volatile ZKServiceRegistryAndDiscovery instance;
 	
 	public static ZKServiceRegistryAndDiscovery getInstance() {
@@ -43,11 +45,11 @@ public class ZKServiceRegistryAndDiscovery implements ServiceRegistry, ServiceDi
 
 	@Override
 	public void init() {
-		Logs.ZK.info("begin init zookeeper...");
+		logger.info("begin init zookeeper...");
 		
 		
 		
-		Logs.ZK.info("init zookeeper success.");
+		logger.info("init zookeeper success.");
 	}
 
 	@Override
@@ -55,24 +57,24 @@ public class ZKServiceRegistryAndDiscovery implements ServiceRegistry, ServiceDi
 		if(!isRunning()) {
 			init();
 			
-			Logs.ZK.info("startting zookeeper...");
+			logger.info("startting zookeeper...");
 			
 			
-			Logs.ZK.info("started zookeeper.");
+			logger.info("started zookeeper.");
 		}else {
-			Logs.ZK.info("zookeeper is not run.");
+			logger.info("zookeeper is not run.");
 		}
 	}
 
 	@Override
 	public void stop() {
 		if(isRunning()) {
-			Logs.ZK.info("stopping zookeeper...");
+			logger.info("stopping zookeeper...");
 			
 			
-			Logs.ZK.info("stopped zookeeper.");
+			logger.info("stopped zookeeper.");
 		}else {
-			Logs.ZK.info("zookeeper is not run.");
+			logger.info("zookeeper is not run.");
 		}
 	}
 
