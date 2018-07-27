@@ -1,4 +1,4 @@
-package org.livemq.server.server;
+package org.livemq.server.s;
 
 import org.livemq.api.spi.common.CacheManagerFactory;
 
@@ -6,14 +6,14 @@ public class CacheManagerServer extends Server {
 
 	@Override
 	protected void start() {
-		CacheManagerFactory.create().init();
+		CacheManagerFactory.create().start();
 		startNext();
 	}
 
 	@Override
 	protected void stop() {
 		stopNext();
-		CacheManagerFactory.create().destroy();
+		CacheManagerFactory.create().stop();
 	}
 
 }

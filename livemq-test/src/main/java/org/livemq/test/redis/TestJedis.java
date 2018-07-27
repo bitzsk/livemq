@@ -11,12 +11,12 @@ public class TestJedis {
 	
 	@Before
 	public void before() {
-		manager.init();
+		manager.start();
 	}
 	
 	@After
 	public void after() {
-		manager.destroy();
+		manager.stop();
 	}
 	
 	@Test

@@ -74,6 +74,7 @@ public final class RedisConnectionFactory {
 		}else {
 			pool = createPool();
 		}
+		logger.info("redis init success, isCluster:{}, nodes={}", isCluster, nodes);
 	}
 	
 	/**
@@ -96,6 +97,7 @@ public final class RedisConnectionFactory {
 			}
 			cluster = null;
 		}
+		logger.info("redis destroy success");
 	}
 	
 	/**
@@ -167,8 +169,9 @@ public final class RedisConnectionFactory {
 	 */
 	public void setNode(RedisNode node) {
 		if(node != null) {
-			hostName = node.getHost();
-			port = node.getPort();
+			List<RedisNode> nodes = new ArrayList<>();
+			nodes.add(node);
+			setNodes(nodes);
 		}
 	}
 	

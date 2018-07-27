@@ -14,13 +14,12 @@ public class RedisNode extends Node {
 
 	@Override
 	protected void start() {
-		logger.info("node [{}] begin start", getName());
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			logger.error("node [{}] start ex", getName(), e);
 		}
-		logger.info("node [{}] start success", getName());
+		logger.info("server [{}] started.", getName());
 		
 		startNext();
 	}
@@ -29,13 +28,12 @@ public class RedisNode extends Node {
 	protected void stop() {
 		stopNext();
 		
-		logger.info("node [{}] begin stop", getName());
+		logger.info("server [{}] stopping...", getName());
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			logger.error("node [{}] stop ex", getName(), e);
 		}
-		logger.info("node [{}] stop success", getName());
 	}
 
 }

@@ -26,6 +26,26 @@ public class ZKServiceRegistryAndDiscovery implements ServiceRegistry, ServiceDi
 	private ZKServiceRegistryAndDiscovery() {}
 	
 	@Override
+	public void start() {
+		if(!isRunning()) {
+			
+			RUNNING.set(true);
+		}else {
+			logger.info("zookeeper is running.");
+		}
+	}
+
+	@Override
+	public void stop() {
+		if(isRunning()) {
+			
+			RUNNING.set(false);
+		}else {
+			logger.info("zookeeper is not run.");
+		}
+	}
+	
+	@Override
 	public List<String> lookup(String path) {
 		// TODO Auto-generated method stub
 		return null;
@@ -41,47 +61,6 @@ public class ZKServiceRegistryAndDiscovery implements ServiceRegistry, ServiceDi
 	public void deregister() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void init() {
-		logger.info("begin init zookeeper...");
-		
-		
-		
-		logger.info("init zookeeper success.");
-	}
-
-	@Override
-	public void start() {
-		if(!isRunning()) {
-			init();
-			
-			logger.info("startting zookeeper...");
-			
-			
-			logger.info("started zookeeper.");
-		}else {
-			logger.info("zookeeper is not run.");
-		}
-	}
-
-	@Override
-	public void stop() {
-		if(isRunning()) {
-			logger.info("stopping zookeeper...");
-			
-			
-			logger.info("stopped zookeeper.");
-		}else {
-			logger.info("zookeeper is not run.");
-		}
-	}
-
-	@Override
-	public boolean isRunning() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

@@ -1,4 +1,4 @@
-package org.livemq.server.server;
+package org.livemq.server.s;
 
 import org.livemq.api.spi.common.ServiceRegistryFactory;
 

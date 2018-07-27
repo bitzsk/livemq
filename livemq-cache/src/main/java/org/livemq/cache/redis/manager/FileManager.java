@@ -31,17 +31,17 @@ public class FileManager implements CacheManager {
 	private FileManager() {}
 
 	@Override
-	public void init() {
+	public void start() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void destroy() {
+	public void stop() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public String set(String key, String value) {
 		// TODO Auto-generated method stub
@@ -113,5 +113,5 @@ public class FileManager implements CacheManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

@@ -38,4 +38,9 @@ public class RedisNode {
 		this.port = port;
 	}
 
+	@Override
+	public String toString() {
+		return host + ":" + port;
+	}
+
 }

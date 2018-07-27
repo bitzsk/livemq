@@ -2,6 +2,8 @@ package org.livemq.api.spi.common;
 
 import java.util.List;
 
+import org.livemq.api.service.Service;
+
 /**
  * 
  * @Title CacheManager
@@ -11,12 +13,8 @@ import java.util.List;
  * @date 2018-07-23 17:52
  * @version 1.0.0
  */
-public interface CacheManager {
+public interface CacheManager extends Service {
 
-	void init();
-	
-	void destroy();
-	
 	String set(String key, String value);
 	
 	String get(String key);

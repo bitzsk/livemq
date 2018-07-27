@@ -1,6 +1,10 @@
 package org.livemq.test.node;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class Node {
+	private static final Logger logger = LoggerFactory.getLogger(Node.class);
 	
 	// 节点名称
 	private String name;
@@ -26,6 +30,7 @@ public abstract class Node {
 
 	public void startNext() {
 		if (next != null) {
+			logger.info("server [{}] startting...", getNextName());
 			next.start();
 		}
 	}
@@ -33,6 +38,7 @@ public abstract class Node {
 	public void stopNext() {
 		if (next != null) {
 			next.stop();
+			logger.info("server [{}] stopped.", getNextName());
 		}
 	}
 

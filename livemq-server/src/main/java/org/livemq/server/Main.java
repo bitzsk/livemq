@@ -11,6 +11,7 @@ public class Main {
 		ServerLauncher launcher = new ServerLauncher();
 		launcher.init();
 		launcher.start();
+		System.out.println();
 		addHook(launcher);
 	}
 
