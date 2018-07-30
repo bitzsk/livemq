@@ -2,6 +2,7 @@ package org.livemq.zk;
 
 import java.util.List;
 
+import org.livemq.api.service.Listener;
 import org.livemq.api.spi.common.ServiceDiscovery;
 import org.livemq.api.spi.common.ServiceRegistry;
 import org.slf4j.Logger;
@@ -26,22 +27,20 @@ public class ZKServiceRegistryAndDiscovery implements ServiceRegistry, ServiceDi
 	private ZKServiceRegistryAndDiscovery() {}
 	
 	@Override
-	public void start() {
-		if(!isRunning()) {
-			
-			RUNNING.set(true);
+	public void start(Listener listener) {
+		if(isRunning()) {
+			listener.onSuccess();
 		}else {
-			logger.info("zookeeper is running.");
+			//TODO: do start
 		}
 	}
 
 	@Override
-	public void stop() {
+	public void stop(Listener listener) {
 		if(isRunning()) {
-			
-			RUNNING.set(false);
+			//TODO: do stop
 		}else {
-			logger.info("zookeeper is not run.");
+			listener.onSuccess();
 		}
 	}
 	
@@ -61,6 +60,18 @@ public class ZKServiceRegistryAndDiscovery implements ServiceRegistry, ServiceDi
 	public void deregister() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isRunning() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

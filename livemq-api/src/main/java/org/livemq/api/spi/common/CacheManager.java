@@ -13,8 +13,12 @@ import org.livemq.api.service.Service;
  * @date 2018-07-23 17:52
  * @version 1.0.0
  */
-public interface CacheManager extends Service {
+public interface CacheManager {
 
+	void start();
+	
+	void stop();
+	
 	String set(String key, String value);
 	
 	String get(String key);

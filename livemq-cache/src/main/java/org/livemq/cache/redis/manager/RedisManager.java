@@ -46,13 +46,11 @@ public final class RedisManager implements CacheManager {
 	public void start() {
 		factory.setNode(new RedisNode("192.168.10.170", 6379));
 		factory.init();
-		RUNNING.set(true);
 	}
 
 	@Override
 	public void stop() {
 		if(factory != null) factory.destroy();
-		RUNNING.set(false);
 	}
 	
 	/**
@@ -63,11 +61,6 @@ public final class RedisManager implements CacheManager {
 	 * @return
 	 */
 	private <R> R call(Function<JedisCommands, R> function, R r) {
-		if(!isRunning()) {
-			logger.warn("redis is not running.");
-			return null;
-		}
-		
 		if(factory.isCluster()) {
 			try {
 				return function.apply(factory.getJedisCluster());
@@ -102,11 +95,6 @@ public final class RedisManager implements CacheManager {
 	 * @param consumer
 	 */
 	private void call(Consumer<JedisCommands> consumer) {
-		if(!isRunning()) {
-			logger.warn("redis is not running.");
-			return;
-		}
-		
 		if(factory.isCluster()) {
 			try {
 				consumer.accept(factory.getJedisCluster());
